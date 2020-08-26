@@ -44,11 +44,18 @@ document.addEventListener('click', event => {
         groceryElem.innerHTML = `
        <div class="d-flex w-100 justify-content-between">
          <h5 class="mb-1">${event.target.dataset.name}</h5>
+         <button class="btn btn-danger remove">X</button>
        </div>
        <p class="mb-1">Quantity: ${event.target.dataset.quantity}</p>
        <small>Price: ${event.target.dataset.cost}</small>
       `
         document.getElementById('purchased').append(groceryElem)
+        event.target.parentNode.parentNode.remove()
+      })
+      .catch(err => console.error(err))
+  } else if (event.target.classList.contains('remove')) {
+    axios.delete(`/api/groceries/${event.target.parentNode.parentNode.id}`)
+      .then(() => {
         event.target.parentNode.parentNode.remove()
       })
       .catch(err => console.error(err))
